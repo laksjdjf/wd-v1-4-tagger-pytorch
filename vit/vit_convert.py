@@ -99,5 +99,5 @@ for block in range(12):
 #last fully connected
 convert("fc.weight","predictions_dense",0,True)
 convert("fc.bias","predictions_dense",1)
-
+vit.load_state_dict(new_dic)
 torch.save(vit.state_dict(),"wd-v1-4-vit-tagger-v2.ckpt")
