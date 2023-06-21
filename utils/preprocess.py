@@ -2,6 +2,7 @@
 
 import cv2
 from PIL import Image
+import numpy as np
 IMAGE_SIZE = 448
 
 def preprocess_image(image):

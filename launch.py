@@ -1,6 +1,7 @@
 import pandas as pd
 from utils.preprocess import preprocess_image
 from vit.vit import ViT
+import torch
 
 vit = ViT(3,448,9083)
 vit.load_state_dict(torch.load("wd-v1-4-vit-tagger-v2.ckpt"))
