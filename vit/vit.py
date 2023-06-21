@@ -65,11 +65,11 @@ class SkipInitChannelwise(nn.Module):
 class ViTBlock(nn.Module):
     def __init__(self, input_dim, heads, key_dim, mlp_dim, layerscale_init, stochdepth_rate):
         super().__init__()
-        self.norm1 = nn.LayerNorm(input_dim,eps=1e-5)
+        self.norm1 = nn.LayerNorm(input_dim,eps=1e-3)
         self.attn = nn.MultiheadAttention(input_dim, heads, batch_first=True)
         self.skip1 = SkipInitChannelwise(key_dim, init_val=layerscale_init)
         self.stochdepth1 = StochDepth(stochdepth_rate, scale_by_keep=True) if stochdepth_rate > 0.0 else None
-        self.norm2 = nn.LayerNorm(input_dim,eps=1e-5)
+        self.norm2 = nn.LayerNorm(input_dim,eps=1e-3)
         self.mlp = MLPBlock(input_dim, mlp_dim, stochdepth_rate)
         self.skip2 = SkipInitChannelwise(key_dim, init_val=layerscale_init)
         self.stochdepth2 = StochDepth(stochdepth_rate, scale_by_keep=True) if stochdepth_rate > 0.0 else None
@@ -124,7 +124,7 @@ class ViT(nn.Module):
                 ViTBlock(key_dim, heads, key_dim, mlp_dim, layerscale_init, stochdepth_rate)
             )
 
-        self.norm = nn.LayerNorm(key_dim,eps=1e-5)
+        self.norm = nn.LayerNorm(key_dim,eps=1e-3)
         self.avgpool = nn.AdaptiveAvgPool1d(1)
         self.fc = nn.Linear(key_dim, out_classes)
         self.act = nn.Sigmoid()
